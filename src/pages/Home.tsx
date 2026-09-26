@@ -13,7 +13,7 @@ export const Home = () => {
   const smoothProgress = useSpring(scrollYProgress, { damping: 15, stiffness: 80, mass: 0.5 });
 
   // --- GLOBAL BACKGROUND ---
-  const bg = useTransform(smoothProgress, [0, 0.2, 0.3, 0.75, 0.85], ["#F7F3E9", "#F7F3E9", "#040D09", "#040D09", "#B9673E"]);
+  const bg = useTransform(smoothProgress, [0, 0.2, 0.3, 0.75, 0.85], ["#F7F3E9", "#F7F3E9", "#06120C", "#06120C", "#B9673E"]);
 
   // --- SCENE 1: THE SPLIT (0.0 to 0.3) ---
   const s1TextYTop = useTransform(smoothProgress, [0, 0.25], ["0vh", "-100vh"]);
@@ -74,11 +74,19 @@ export const Home = () => {
         {/* ==========================================
             SCENE 2: THE 3D CAROUSEL 
         ========================================== */}
+        
+        {/* Natural Background Image */}
+        <motion.div style={{ opacity: carouselOpacity }} className="absolute inset-0 z-15 pointer-events-none">
+           <img src="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&q=80&w=2500" className="w-full h-full object-cover scale-105" alt="Natural Herbal Background" />
+           <div className="absolute inset-0 bg-[#06120C]/60 mix-blend-overlay" />
+           <div className="absolute inset-0 bg-[#06120C]/30" />
+        </motion.div>
+
         <motion.div 
            style={{ opacity: carouselOpacity, scale: carouselScale, perspective: "2500px" }} 
            className="absolute inset-0 z-20 flex flex-col items-center justify-center pointer-events-none"
         >
-           <div className="absolute top-[15%] text-center text-[#F7F3E9] opacity-40 uppercase tracking-[0.5em] text-xs font-bold">
+           <div className="absolute top-[15%] text-center text-[#F7F3E9] opacity-80 uppercase tracking-[0.5em] text-xs font-bold shadow-black drop-shadow-xl">
               The Collection
            </div>
 
@@ -86,28 +94,28 @@ export const Home = () => {
               {products.slice(0, 6).map((p, i) => {
                  const angle = i * (360 / 6);
                  return (
-                   <div 
-                     key={p.id}
-                     style={{ 
-                       transform: `rotateY(${angle}deg) translateZ(clamp(280px, 45vw, 700px))`, 
-                       transformStyle: "preserve-3d" 
-                     }} 
-                     className="absolute inset-0 bg-[#F7F3E9] rounded-[2rem] p-4 shadow-[0_0_80px_rgba(0,0,0,0.6)] pointer-events-auto group border border-[#173C2A]/10 flex flex-col"
-                   >
-                     <div className="w-full flex-grow rounded-xl overflow-hidden mb-4 relative">
-                       <img src={p.image} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt={p.name} />
-                       <div className="absolute inset-0 bg-[#173C2A]/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-sm">
-                          <button onClick={() => addToCart(p, 1)} className="bg-[#F7F3E9] text-[#173C2A] p-4 rounded-full hover:scale-110 transition-transform duration-300">
-                             <ShoppingBag size={24} />
-                          </button>
+                     <div 
+                       key={p.id}
+                       style={{ 
+                         transform: `rotateY(${angle}deg) translateZ(clamp(280px, 45vw, 700px))`, 
+                         transformStyle: "preserve-3d" 
+                       }} 
+                       className="absolute inset-0 bg-white/10 backdrop-blur-xl rounded-[2rem] p-4 shadow-[0_0_80px_rgba(0,0,0,0.6)] pointer-events-auto group border border-white/20 flex flex-col"
+                     >
+                       <div className="w-full flex-grow rounded-xl overflow-hidden mb-4 relative">
+                         <img src={p.image} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt={p.name} />
+                         <div className="absolute inset-0 bg-[#173C2A]/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-md">
+                            <button onClick={() => addToCart(p, 1)} className="bg-[#F7F3E9] text-[#173C2A] p-4 rounded-full hover:scale-110 transition-transform duration-300 shadow-2xl">
+                               <ShoppingBag size={24} />
+                            </button>
+                         </div>
+                       </div>
+                       <div className="text-center px-2 pb-4 shrink-0">
+                          <span className="text-[10px] text-[#F7F3E9]/70 font-bold tracking-widest uppercase mb-1 block">{p.category}</span>
+                          <h3 className="font-serif text-xl md:text-2xl text-white mb-1 truncate drop-shadow-md">{p.name}</h3>
+                          <p className="text-md font-bold text-[#F7F3E9]">₹{p.price}</p>
                        </div>
                      </div>
-                     <div className="text-center px-2 pb-4 shrink-0">
-                        <span className="text-[10px] text-[#B9673E] font-bold tracking-widest uppercase mb-1 block">{p.category}</span>
-                        <h3 className="font-serif text-xl md:text-2xl text-[#173C2A] mb-1 truncate">{p.name}</h3>
-                        <p className="text-md font-semibold text-[#173C2A]/60">₹{p.price}</p>
-                     </div>
-                   </div>
                  )
               })}
            </motion.div>
