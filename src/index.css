@@ -22,6 +22,18 @@ h1, h2, h3, h4, h5, h6 {
   @apply font-serif font-medium;
 }
 
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-background); }
+::-webkit-scrollbar-thumb { background: var(--color-secondary); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-primary); }
+
+
 /* Custom Scrollbar for premium feel */
 ::-webkit-scrollbar {
   width: 8px;

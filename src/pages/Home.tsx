@@ -1,116 +1,174 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Star, Heart } from 'lucide-react';
+import { ArrowRight, Star, Heart, ShieldCheck, Truck, Leaf, Phone } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { products } from '../data/products';
 import { categories } from '../data/categories';
 import { ProductDiscovery } from '../components/ProductDiscovery';
 import { useCart } from '../context/CartContext';
 
+const fadeUp = {
+  hidden: { opacity: 0, y: 32 },
+  visible: (i = 0) => ({
+    opacity: 1, y: 0,
+    transition: { duration: 0.6, delay: i * 0.1, ease: 'easeOut' }
+  })
+};
+
 export const Home = () => {
   const { addToCart } = useCart();
+  const bestSellers = products.filter(p => p.isBestSeller).slice(0, 4);
+
   return (
-    <div>
-      {/* SECTION 1 - HERO */}
-      <section className="relative min-h-[90vh] flex items-center bg-background overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <div className="absolute right-0 top-0 w-2/3 h-full bg-sage rounded-bl-[150px] opacity-30 transform translate-x-1/4"></div>
+    <div className="overflow-x-hidden">
+
+      {/* ─── HERO ─────────────────────────────────────── */}
+      <section className="relative min-h-[92vh] flex items-center bg-background">
+        {/* Background organic blob */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute -right-32 -top-32 w-[700px] h-[700px] rounded-full bg-sage opacity-40" />
+          <div className="absolute right-64 bottom-0 w-[300px] h-[300px] rounded-full bg-sage opacity-20" />
         </div>
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full pt-12 pb-24 lg:py-0">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
-            
-            {/* Hero Content */}
-            <motion.div 
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="max-w-2xl"
-            >
-              <div className="mb-6 flex items-center space-x-2">
-                <span className="h-px w-8 bg-accent"></span>
-                <span className="text-sm font-semibold tracking-widest text-accent uppercase">
-                  NATURAL WELLNESS • HERBAL FORMULATIONS
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-16 pb-24 lg:py-0 relative z-10">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+
+            {/* Left */}
+            <motion.div initial="hidden" animate="visible" className="max-w-xl">
+              <motion.div variants={fadeUp} custom={0} className="mb-5 inline-flex items-center gap-3">
+                <span className="h-px w-8 bg-accent" />
+                <span className="text-xs font-bold tracking-widest text-accent uppercase">
+                  NATURAL WELLNESS · HERBAL FORMULATIONS
                 </span>
-              </div>
-              
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-serif text-primary leading-tight mb-8">
+              </motion.div>
+
+              <motion.h1 variants={fadeUp} custom={1}
+                className="text-[56px] sm:text-[68px] lg:text-[76px] font-serif text-primary leading-[1.05] mb-6">
                 Nature's wisdom.<br />
-                <span className="italic font-light">Made for modern wellness.</span>
-              </h1>
-              
-              <p className="text-lg sm:text-xl text-text-muted mb-10 leading-relaxed max-w-lg">
-                Pure herbal products for a healthier, happier you. Carefully crafted with nature's best ingredients.
-              </p>
-              
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link to="/shop" className="bg-primary hover:bg-secondary text-white px-8 py-4 rounded-full font-medium transition-colors flex items-center justify-center group">
-                  SHOP PRODUCTS
-                  <ArrowRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                <em className="not-italic text-secondary">Made for modern</em><br />
+                wellness.
+              </motion.h1>
+
+              <motion.p variants={fadeUp} custom={2}
+                className="text-lg text-text-muted mb-10 leading-relaxed">
+                100% Organic, Plant-Based Formulations rooted in Ayurveda —
+                trusted by lakhs of customers across India.
+              </motion.p>
+
+              <motion.div variants={fadeUp} custom={3} className="flex flex-col sm:flex-row gap-4">
+                <Link to="/shop"
+                  className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-secondary text-white px-8 py-4 rounded-full font-semibold text-sm tracking-wide transition-all duration-300 group shadow-lg shadow-primary/20">
+                  SHOP ALL PRODUCTS
+                  <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                 </Link>
-                <Link to="/collections" className="bg-transparent border border-primary text-primary hover:bg-sage hover:border-transparent px-8 py-4 rounded-full font-medium transition-colors text-center">
-                  EXPLORE COLLECTIONS
+                <Link to="/contact"
+                  className="inline-flex items-center justify-center gap-2 border-2 border-primary text-primary hover:bg-primary hover:text-white px-8 py-4 rounded-full font-semibold text-sm tracking-wide transition-all duration-300">
+                  TALK TO AN EXPERT
                 </Link>
-              </div>
+              </motion.div>
+
+              {/* Mini trust row */}
+              <motion.div variants={fadeUp} custom={4} className="mt-10 flex items-center gap-6 flex-wrap">
+                {[
+                  { icon: <Leaf size={16} />, text: '100% Plant-Based' },
+                  { icon: <ShieldCheck size={16} />, text: 'No Side Effects' },
+                  { icon: <Truck size={16} />, text: 'Free & Fast Shipping' },
+                ].map((item) => (
+                  <div key={item.text} className="flex items-center gap-2 text-sm text-text-muted">
+                    <span className="text-primary">{item.icon}</span>
+                    {item.text}
+                  </div>
+                ))}
+              </motion.div>
             </motion.div>
 
-            {/* Hero Image */}
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }}
+            {/* Right – product composition */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.94 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
-              className="relative hidden lg:block h-[600px]"
+              transition={{ duration: 1, ease: 'easeOut', delay: 0.2 }}
+              className="hidden lg:block relative h-[620px]"
             >
-              <img 
-                src="https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&q=80&w=1000" 
-                alt="Herbal Deck Premium Products" 
-                className="w-full h-full object-cover rounded-t-full rounded-br-full shadow-2xl shadow-primary/20"
-              />
-              {/* Botanical Decoration */}
-              <img 
-                src="https://images.unsplash.com/photo-1629198725622-c356e792e3a8?auto=format&fit=crop&q=80&w=400"
-                alt="Botanical Leaf"
-                className="absolute -bottom-10 -left-10 w-48 h-48 object-cover rounded-full border-8 border-white shadow-xl opacity-90"
-              />
+              <div className="absolute inset-0 rounded-[60px] overflow-hidden shadow-2xl shadow-primary/15">
+                <img
+                  src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=1000"
+                  alt="Herbal Deck premium botanical products"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-primary/30 to-transparent" />
+              </div>
+
+              {/* floating badge */}
+              <div className="absolute bottom-8 left-8 bg-white/90 backdrop-blur-sm rounded-2xl px-5 py-4 shadow-xl flex items-center gap-4">
+                <div className="flex -space-x-2">
+                  {[1,2,3].map(i => (
+                    <div key={i} className="w-8 h-8 rounded-full bg-sage border-2 border-white overflow-hidden">
+                      <img src={`https://i.pravatar.cc/40?img=${i+10}`} alt="customer" className="w-full h-full object-cover" />
+                    </div>
+                  ))}
+                </div>
+                <div>
+                  <div className="flex text-accent mb-0.5">
+                    {[...Array(5)].map((_,i) => <Star key={i} size={10} className="fill-current" />)}
+                  </div>
+                  <p className="text-xs font-semibold text-primary">Trusted by 58,000+ customers</p>
+                </div>
+              </div>
+
+              {/* floating pill */}
+              <div className="absolute -right-4 top-16 bg-accent text-white rounded-2xl px-4 py-3 shadow-lg rotate-3">
+                <p className="text-xs font-bold tracking-wide">FLAT ₹400 OFF</p>
+                <p className="text-[10px] opacity-80">on Prepaid Orders</p>
+              </div>
             </motion.div>
 
           </div>
         </div>
       </section>
 
-      {/* SECTION 2 - SHOP BY NEED */}
+      {/* ─── ANNOUNCEMENT BAND ────────────────────────── */}
+      <div className="bg-secondary py-3 overflow-hidden">
+        <div className="flex gap-16 animate-[marquee_20s_linear_infinite] whitespace-nowrap">
+          {Array(4).fill(null).map((_, i) => (
+            <div key={i} className="flex gap-16 flex-shrink-0">
+              {['100% Organic', 'No Side Effects', 'Free Shipping', 'No Heavy Metals', 'Ayurvedic Expertise', 'Flat ₹400 OFF Prepaid'].map(t => (
+                <span key={t} className="text-sm font-medium text-white tracking-widest uppercase">{t} &nbsp;·</span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ─── SHOP BY CATEGORY ─────────────────────────── */}
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-end mb-12">
+          <div className="flex justify-between items-end mb-14">
             <div>
-              <h2 className="text-4xl md:text-5xl font-serif text-primary mb-4">Find what you're looking for.</h2>
-              <p className="text-lg text-text-muted">Explore Herbal Deck products by your wellness goal.</p>
+              <p className="text-accent text-sm font-bold tracking-widest uppercase mb-3">Shop by Goal</p>
+              <h2 className="text-4xl md:text-5xl font-serif text-primary">Find what you're<br />looking for.</h2>
             </div>
-            <Link to="/categories" className="hidden md:flex items-center text-accent hover:text-primary font-medium transition-colors group">
-              View All <ArrowRight size={18} className="ml-1 group-hover:translate-x-1 transition-transform" />
+            <Link to="/shop" className="hidden md:flex items-center gap-1 text-accent hover:text-primary font-semibold text-sm transition-colors group">
+              All Products <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
-            {categories.map((category, index) => (
-              <motion.div 
-                key={category.id}
+          <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-9 gap-4">
+            {categories.slice(0, 9).map((cat, i) => (
+              <motion.div
+                key={cat.id}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="group cursor-pointer"
+                transition={{ delay: i * 0.06 }}
+                className="group cursor-pointer flex flex-col items-center text-center"
               >
-                <div className="relative aspect-square mb-4 overflow-hidden rounded-2xl bg-sage">
-                  <img 
-                    src={category.image} 
-                    alt={category.name} 
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-primary/10 group-hover:bg-transparent transition-colors duration-300"></div>
+                <div className="relative w-full aspect-square rounded-2xl overflow-hidden mb-3 bg-sage/30">
+                  <img src={cat.image} alt={cat.name}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                  <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-colors duration-300" />
                 </div>
-                <h3 className="font-serif text-lg font-medium text-center text-primary group-hover:text-accent transition-colors">
-                  {category.name}
+                <h3 className="font-medium text-sm text-primary group-hover:text-accent transition-colors leading-tight">
+                  {cat.name}
                 </h3>
               </motion.div>
             ))}
@@ -118,78 +176,89 @@ export const Home = () => {
         </div>
       </section>
 
-      {/* SECTION 3 - BEST SELLERS */}
-      <section className="py-24 bg-sage/30">
+      {/* ─── BEST SELLERS ─────────────────────────────── */}
+      <section className="py-24 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-end mb-12">
+          <div className="flex justify-between items-end mb-14">
             <div>
-              <h2 className="text-4xl md:text-5xl font-serif text-primary mb-4">Made for everyday wellness.</h2>
-              <p className="text-lg text-text-muted">Customer favorites designed for optimal health.</p>
+              <p className="text-accent text-sm font-bold tracking-widest uppercase mb-3">Customer Favourites</p>
+              <h2 className="text-4xl md:text-5xl font-serif text-primary">Made for everyday<br />wellness.</h2>
             </div>
-            <Link to="/shop" className="hidden md:flex items-center text-accent hover:text-primary font-medium transition-colors group">
-              View all Products <ArrowRight size={18} className="ml-1 group-hover:translate-x-1 transition-transform" />
+            <Link to="/shop" className="hidden md:flex items-center gap-1 text-accent hover:text-primary font-semibold text-sm transition-colors group">
+              View All <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {products.filter(p => p.isBestSeller).map((product, index) => (
-              <motion.div 
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {bestSellers.map((product, i) => (
+              <motion.div
                 key={product.id}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="group flex flex-col h-full bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 relative p-4"
+                transition={{ delay: i * 0.1 }}
+                className="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 flex flex-col"
               >
-                <button className="absolute top-6 right-6 z-10 text-gray-400 hover:text-accent transition-colors">
-                  <Heart size={20} />
-                </button>
-                
-                <Link to={`/product/${product.id}`} className="block relative aspect-square mb-6 overflow-hidden rounded-xl bg-sage/20">
-                  <img 
-                    src={product.image} 
-                    alt={product.name} 
-                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
-                  />
-                </Link>
-                
-                <div className="flex-grow flex flex-col">
-                  <div className="text-xs font-semibold text-accent uppercase tracking-wider mb-2">
-                    {product.category}
-                  </div>
+                {/* Image */}
+                <div className="relative overflow-hidden aspect-square bg-sage/20">
                   <Link to={`/product/${product.id}`}>
-                    <h3 className="font-serif text-xl font-medium text-primary mb-2 group-hover:text-accent transition-colors">
+                    <img src={product.image} alt={product.name}
+                      className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700" />
+                  </Link>
+
+                  {/* Discount badge */}
+                  {product.mrp > product.price && (
+                    <div className="absolute top-4 left-4 bg-accent text-white text-xs font-bold px-2.5 py-1 rounded-full">
+                      {Math.round(((product.mrp - product.price) / product.mrp) * 100)}% OFF
+                    </div>
+                  )}
+
+                  {/* Wishlist */}
+                  <button className="absolute top-4 right-4 w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-gray-400 hover:text-accent transition-colors shadow-sm">
+                    <Heart size={15} />
+                  </button>
+
+                  {/* Quick Add - appears on hover */}
+                  <div className="absolute inset-x-4 bottom-4 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+                    <button
+                      onClick={() => addToCart(product, 1)}
+                      className="w-full bg-primary text-white py-2.5 rounded-xl text-sm font-semibold shadow-lg"
+                    >
+                      Quick Add
+                    </button>
+                  </div>
+                </div>
+
+                {/* Info */}
+                <div className="p-5 flex flex-col flex-grow">
+                  <p className="text-[11px] font-bold text-accent uppercase tracking-widest mb-1.5">{product.category}</p>
+                  <Link to={`/product/${product.id}`}>
+                    <h3 className="font-serif text-lg font-medium text-primary leading-tight mb-2 group-hover:text-accent transition-colors line-clamp-2">
                       {product.name}
                     </h3>
                   </Link>
-                  <p className="text-sm text-text-muted mb-4 line-clamp-2">
-                    {product.shortDesc}
-                  </p>
-                  
-                  {product.rating && (
-                    <div className="flex items-center space-x-1 mb-4">
+
+                  <div className="flex items-center gap-1.5 mb-4">
+                    <div className="flex">
                       {[...Array(5)].map((_, i) => (
-                        <Star key={i} size={14} className={i < Math.floor(product.rating!) ? "fill-accent text-accent" : "text-gray-300"} />
+                        <Star key={i} size={12} className="fill-accent text-accent" />
                       ))}
-                      <span className="text-xs text-text-muted ml-2">({product.reviews})</span>
                     </div>
-                  )}
-                  
+                    <span className="text-xs text-text-muted">
+                      {product.rating} ({product.reviews.toLocaleString('en-IN')})
+                    </span>
+                  </div>
+
                   <div className="mt-auto flex items-center justify-between">
-                    <div>
-                      <span className="text-lg font-bold text-primary mr-2">₹{product.price}</span>
-                      {product.mrp > product.price && (
-                        <span className="text-sm text-text-muted line-through">₹{product.mrp}</span>
-                      )}
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-xl font-bold text-primary">₹{product.price.toLocaleString('en-IN')}</span>
+                      <span className="text-sm text-text-muted line-through">₹{product.mrp.toLocaleString('en-IN')}</span>
                     </div>
-                    <button 
-                      onClick={(e) => {
-                        e.preventDefault();
-                        addToCart(product, 1);
-                      }}
-                      className="bg-primary hover:bg-secondary text-white px-4 py-2 rounded-full text-sm font-medium transition-colors"
+                    <button
+                      onClick={() => addToCart(product, 1)}
+                      className="bg-sage hover:bg-primary text-primary hover:text-white px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200"
                     >
-                      Add to Cart
+                      Add +
                     </button>
                   </div>
                 </div>
@@ -199,40 +268,144 @@ export const Home = () => {
         </div>
       </section>
 
-      {/* SECTION 4 - BRAND STORY */}
-      <section className="py-0 bg-primary overflow-hidden">
-        <div className="grid lg:grid-cols-2">
-          <div className="relative h-[400px] lg:h-auto">
-            <img 
-              src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=1200" 
-              alt="Traditional Herbs" 
+      {/* ─── BRAND STORY ──────────────────────────────── */}
+      <section className="bg-primary overflow-hidden">
+        <div className="grid lg:grid-cols-2 min-h-[600px]">
+          <div className="relative h-64 lg:h-auto">
+            <img
+              src="https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?auto=format&fit=crop&q=80&w=1200"
+              alt="Traditional Ayurvedic herbs"
               className="absolute inset-0 w-full h-full object-cover"
             />
+            <div className="absolute inset-0 bg-primary/20" />
           </div>
-          <div className="px-6 py-20 lg:p-24 flex flex-col justify-center bg-primary text-white">
-            <div className="mb-6 flex items-center space-x-2">
-              <span className="h-px w-8 bg-accent"></span>
-              <span className="text-sm font-semibold tracking-widest text-accent uppercase">
-                OUR STORY
-              </span>
+          <div className="flex flex-col justify-center px-8 py-16 lg:px-20 lg:py-24 text-white">
+            <div className="flex items-center gap-3 mb-6">
+              <span className="h-px w-8 bg-accent" />
+              <span className="text-xs font-bold tracking-widest text-accent uppercase">Our Story</span>
             </div>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif mb-8 leading-tight">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif leading-tight mb-8">
               Rooted in tradition.<br />
-              Designed for today.
+              <em className="not-italic opacity-70">Designed for today.</em>
             </h2>
-            <p className="text-lg text-gray-300 mb-10 leading-relaxed font-light">
-              At Herbal Deck, we believe in the power of nature to support your wellness journey. Our products are crafted using carefully selected herbs and ingredients, inspired by traditional wisdom and modern understanding.
+            <p className="text-gray-300 text-lg leading-relaxed mb-6 max-w-lg">
+              At Herbal Deck, we believe in the power of nature to support your wellness journey.
+              Authentic, 100% organic, plant-based Ayurvedic wellness — combining ancient wisdom
+              with modern research.
             </p>
-            <div>
-              <Link to="/about" className="inline-flex items-center text-white border-b border-white hover:text-accent hover:border-accent pb-1 transition-all group font-medium">
-                EXPLORE OUR STORY <ArrowRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
-              </Link>
+            <div className="grid grid-cols-2 gap-6 mb-10 max-w-md">
+              {[
+                { title: 'Purity Guaranteed', desc: 'Clean, natural sourcing' },
+                { title: 'No Side Effects', desc: 'Gentle on your body' },
+                { title: 'Ayurvedic Expertise', desc: 'Traditional recipes' },
+                { title: 'Eco-Friendly', desc: 'Sustainable practices' },
+              ].map(p => (
+                <div key={p.title}>
+                  <h4 className="font-semibold text-white text-sm mb-0.5">{p.title}</h4>
+                  <p className="text-xs text-gray-400">{p.desc}</p>
+                </div>
+              ))}
             </div>
+            <Link to="/about"
+              className="inline-flex items-center gap-2 text-white border-b border-white/40 hover:border-accent hover:text-accent pb-1 transition-all font-semibold text-sm group w-fit">
+              EXPLORE OUR STORY
+              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+            </Link>
           </div>
         </div>
       </section>
 
+      {/* ─── PRODUCT DISCOVERY ────────────────────────── */}
       <ProductDiscovery />
+
+      {/* ─── TRUST SECTION ────────────────────────────── */}
+      <section className="py-24 bg-sage/30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <p className="text-accent text-sm font-bold tracking-widest uppercase mb-3">Why Choose Us</p>
+            <h2 className="text-4xl md:text-5xl font-serif text-primary">Wellness you can trust.</h2>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {[
+              { icon: <Leaf size={32} />, title: 'Carefully Selected', desc: 'Only verified natural ingredients in every product.' },
+              { icon: <ShieldCheck size={32} />, title: 'No Side Effects', desc: 'Plant-based formulas gentle on your body.' },
+              { icon: <Star size={32} />, title: 'Backed by Experts', desc: '700+ certified health experts across India.' },
+              { icon: <Phone size={32} />, title: 'Customer Support', desc: 'Real people available 6 days a week.' },
+            ].map((item, i) => (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="flex flex-col items-center text-center p-6 bg-white rounded-3xl shadow-sm hover:shadow-md transition-shadow"
+              >
+                <div className="w-16 h-16 rounded-2xl bg-sage flex items-center justify-center text-primary mb-4">
+                  {item.icon}
+                </div>
+                <h3 className="font-serif text-xl text-primary mb-2">{item.title}</h3>
+                <p className="text-sm text-text-muted leading-relaxed">{item.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── TESTIMONIALS ─────────────────────────────── */}
+      <section className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-14">
+            <p className="text-accent text-sm font-bold tracking-widest uppercase mb-3">Customer Love</p>
+            <h2 className="text-4xl md:text-5xl font-serif text-primary">Loved by our community.</h2>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              { name: 'Rohan S.', product: 'Height Veda Natural Growth', review: 'I have been using Height Veda for a few months and I feel more energetic. Really happy with the results.', rating: 5 },
+              { name: 'Priya M.', product: 'Gut Amrit Smooth Digestion', review: 'Gut Amrit has helped me a lot with digestion. Great product and fast delivery. Highly recommend.', rating: 5 },
+              { name: 'Aman R.', product: 'Fauji 360 Joint Pain Formula', review: 'Good quality products and trusted brand. My joint pain has reduced significantly. Will definitely buy again.', rating: 5 },
+            ].map((t, i) => (
+              <motion.div
+                key={t.name}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="bg-background rounded-3xl p-8 flex flex-col"
+              >
+                <div className="flex text-accent mb-4">
+                  {[...Array(t.rating)].map((_, i) => <Star key={i} size={16} className="fill-current" />)}
+                </div>
+                <p className="text-text-muted text-base leading-relaxed mb-6 flex-grow">"{t.review}"</p>
+                <div>
+                  <p className="font-semibold text-primary">{t.name}</p>
+                  <p className="text-xs text-text-muted">{t.product}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── FINAL CTA ────────────────────────────────── */}
+      <section className="py-24 bg-accent">
+        <div className="max-w-4xl mx-auto px-4 text-center text-white">
+          <h2 className="text-4xl md:text-6xl font-serif mb-6">Start your wellness journey.</h2>
+          <p className="text-lg opacity-80 mb-10 max-w-lg mx-auto">
+            Pure herbal products for a healthier, happier you. Backed by Ayurvedic tradition.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link to="/shop"
+              className="bg-white text-accent hover:bg-primary hover:text-white px-10 py-4 rounded-full font-bold text-sm tracking-wide transition-all duration-300 shadow-xl">
+              SHOP ALL PRODUCTS
+            </Link>
+            <a href="tel:+918962421207"
+              className="border-2 border-white text-white hover:bg-white hover:text-accent px-10 py-4 rounded-full font-bold text-sm tracking-wide transition-all duration-300">
+              CALL +91-8962421207
+            </a>
+          </div>
+        </div>
+      </section>
+
     </div>
   );
 };
