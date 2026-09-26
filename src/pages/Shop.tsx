@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Filter, ChevronDown, Star, Heart, Search } from 'lucide-react';
+import { ChevronDown, Star, Heart, Search } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { products } from '../data/products';
-import { categories } from '../data/categories';
 import { useCart } from '../context/CartContext';
 
 const allCategoryNames = ['All', ...Array.from(new Set(products.map(p => p.category)))];

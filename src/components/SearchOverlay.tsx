@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, X } from 'lucide-react';
 import { products } from '../data/products';
@@ -9,7 +9,7 @@ interface SearchOverlayProps {
   onClose: () => void;
 }
 
-export const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose }) => {
+export const SearchOverlay = ({ isOpen, onClose }: SearchOverlayProps) => {
   const [query, setQuery] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
 

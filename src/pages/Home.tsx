@@ -1,5 +1,4 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, type Variants } from 'framer-motion';
 import { ArrowRight, Star, Heart, ShieldCheck, Truck, Leaf, Phone } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { products } from '../data/products';
@@ -7,11 +6,12 @@ import { categories } from '../data/categories';
 import { ProductDiscovery } from '../components/ProductDiscovery';
 import { useCart } from '../context/CartContext';
 
-const fadeUp = {
+const fadeUp: Variants = {
   hidden: { opacity: 0, y: 32 },
-  visible: (i = 0) => ({
-    opacity: 1, y: 0,
-    transition: { duration: 0.6, delay: i * 0.1, ease: 'easeOut' }
+  visible: (i: number = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] as const }
   })
 };
 
