@@ -1,32 +1,75 @@
-# React + TypeScript + Vite
+# Herbal Deck
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Herbal Deck is a modern, responsive e-commerce web application for exploring and purchasing premium herbal products. Built with cutting-edge web technologies, it features a beautiful UI, smooth animations, and a seamless shopping experience.
 
-Currently, two official plugins are available:
+## ✨ Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Dynamic Shop Catalog:** Browse through a curated selection of herbal products.
+- **Product Details:** Detailed views for each product with descriptions and pricing.
+- **Shopping Cart:** An interactive slide-out cart drawer to manage your selected items.
+- **Responsive Design:** Fully optimized for desktop, tablet, and mobile devices.
+- **Smooth Animations:** Premium micro-interactions and page transitions.
 
-## React Compiler
+## 🛠️ Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+This project is built using modern web development tools:
 
-## Expanding the Oxlint configuration
+- **Framework:** [React 19](https://react.dev/)
+- **Routing:** [React Router v7](https://reactrouter.com/)
+- **Styling:** [Tailwind CSS v4](https://tailwindcss.com/)
+- **Animations:** [Framer Motion](https://www.framer.com/motion/)
+- **Icons:** [Lucide React](https://lucide.dev/)
+- **Build Tool:** [Vite](https://vitejs.dev/)
+- **Language:** [TypeScript](https://www.typescriptlang.org/)
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+## 🚀 Getting Started
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+Follow these steps to run the project locally:
+
+### Prerequisites
+
+Make sure you have Node.js installed on your machine.
+
+### Installation
+
+1. Clone the repository
+2. Install dependencies:
+
+```bash
+npm install
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+### Running the Development Server
+
+Start the Vite development server:
+
+```bash
+npm run dev
+```
+
+Open your browser and navigate to the provided local URL (usually `http://localhost:5173`).
+
+### Building for Production
+
+To create a production-ready build:
+
+```bash
+npm run build
+```
+
+The output will be generated in the `dist` folder.
+
+## 📁 Project Structure
+
+- `src/components/` - Reusable UI components (Navbar, Footer, CartDrawer, etc.)
+- `src/pages/` - Main route components (Home, Shop, ProductDetail, Contact)
+- `src/context/` - React Context providers (CartContext for state management)
+- `src/data/` - Mock data for products and other static content
+- `src/utils/` - Utility functions
+
+## 📜 Scripts
+
+- `npm run dev`: Starts the development server.
+- `npm run build`: Compiles TypeScript and builds the app for production.
+- `npm run lint`: Runs code linting using Oxlint.
+- `npm run preview`: Previews the production build locally.
