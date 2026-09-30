@@ -27,7 +27,17 @@ const TextScrubReveal = ({ text, progress, range }: { text: string, progress: an
 };
 
 // ─── MAIN HOME COMPONENT ────────────────────────────────────
+const rotatingWords = ["Masterpiece", "Medicine", "Remedy", "Secret", "Essence"];
+
 export const Home = () => {
+  const [wordIndex, setWordIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setWordIndex((prev) => (prev + 1) % rotatingWords.length);
+    }, 2500);
+    return () => clearInterval(interval);
+  }, []);
   const containerRef = useRef(null);
   const { scrollYProgress } = useScroll({ target: containerRef });
   
@@ -89,7 +99,22 @@ export const Home = () => {
                 transition={{ duration: 1.2, delay: 0.3 }} 
                 className="text-6xl md:text-8xl lg:text-[110px] font-serif text-[#173C2A] leading-[0.9] tracking-tighter"
               >
-                Nature's <br/><span className="italic text-[#B9673E]">Masterpiece</span>
+                Nature's <br/>
+                <span className="relative inline-block overflow-hidden pb-4">
+                  <span className="invisible pointer-events-none italic block">Masterpiece</span>
+                  <AnimatePresence>
+                    <motion.span
+                      key={wordIndex}
+                      initial={{ opacity: 0, y: "100%" }}
+                      animate={{ opacity: 1, y: "0%" }}
+                      exit={{ opacity: 0, y: "-100%" }}
+                      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                      className="italic text-[#B9673E] absolute inset-0 flex items-center justify-center"
+                    >
+                      {rotatingWords[wordIndex]}
+                    </motion.span>
+                  </AnimatePresence>
+                </span>
               </motion.h1>
            </motion.div>
            
