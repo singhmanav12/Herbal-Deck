@@ -4,6 +4,8 @@ import { ArrowRight, ShoppingBag, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { products } from '../data/products';
 import { useCart } from '../context/CartContext';
+import { ProductQuiz } from '../components/ProductQuiz';
+import { ReviewMarquee } from '../components/ReviewMarquee';
 
 // ─── PREMIUM FEATURE: SCROLL-SCRUBBING TEXT REVEAL ────────
 const TextScrubReveal = ({ text, progress, range }: { text: string, progress: any, range: [number, number] }) => {
@@ -72,9 +74,10 @@ export const Home = () => {
   const { addToCart } = useCart();
 
   return (
-    <motion.div ref={containerRef} style={{ backgroundColor: bg }} className="relative h-[800vh] w-full transition-colors duration-0">
-      
-      <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
+    <div className="w-full bg-[#F7F3E9] flex flex-col">
+      <motion.div ref={containerRef} style={{ backgroundColor: bg }} className="relative h-[800vh] w-full transition-colors duration-0">
+        
+        <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
         
         {/* Grain Overlay */}
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-30 mix-blend-overlay pointer-events-none z-50" />
@@ -221,6 +224,13 @@ export const Home = () => {
         </motion.div>
 
       </div>
-    </motion.div>
+      </motion.div>
+
+      {/* Normal flow sections added below the sticky scroll */}
+      <div className="relative z-50 bg-[#F7F3E9]">
+        <ReviewMarquee />
+        <ProductQuiz />
+      </div>
+    </div>
   );
 };

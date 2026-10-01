@@ -5,6 +5,7 @@ import { Home } from './pages/Home.tsx';
 import { Shop } from './pages/Shop.tsx';
 import { ProductDetail } from './pages/ProductDetail.tsx';
 import { Contact } from './pages/Contact.tsx';
+import { Glossary } from './pages/Glossary.tsx';
 import { CartDrawer } from './components/CartDrawer.tsx';
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
             <Route path="/shop" element={<Shop />} />
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/glossary" element={<Glossary />} />
           </Routes>
         </main>
         <Footer />

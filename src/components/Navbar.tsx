@@ -84,6 +84,7 @@ export const Navbar = () => {
               </div>
 
               <Link to="/about" className="text-text-main hover:text-primary transition-colors font-medium">About</Link>
+              <Link to="/glossary" className="text-text-main hover:text-primary transition-colors font-medium">Ingredients</Link>
               <Link to="/contact" className="text-text-main hover:text-primary transition-colors font-medium">Contact</Link>
             </div>
 
@@ -147,6 +148,7 @@ export const Navbar = () => {
 
                   <div className="mt-6 pt-6 border-t border-gray-100 flex flex-col gap-4">
                     <Link to="/about" onClick={() => setIsMobileMenuOpen(false)} className="text-base font-medium text-primary">About Us</Link>
+                    <Link to="/glossary" onClick={() => setIsMobileMenuOpen(false)} className="text-base font-medium text-primary">Ingredients</Link>
                     <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className="text-base font-medium text-primary">Contact</Link>
                   </div>
                 </div>

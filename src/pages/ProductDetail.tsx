@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Star, Truck, ShieldCheck, CreditCard, Plus, Minus, ChevronDown, ChevronUp, Leaf, Package } from 'lucide-react';
 import { products } from '../data/products';
 import { useCart } from '../context/CartContext';
+import { IngredientTooltip } from '../components/IngredientTooltip';
 
 export const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -148,6 +149,20 @@ export const ProductDetail = () => {
                     <ul className="list-disc pl-5 space-y-2 text-text-muted text-sm leading-relaxed">
                       {product.benefits?.map((b, i) => <li key={i}>{b}</li>) || <li>Carefully formulated with natural ingredients.</li>}
                     </ul>
+                  )
+                },
+                {
+                  key: 'ingredients',
+                  label: 'Key Ingredients',
+                  content: (
+                    <div className="flex flex-wrap gap-x-2 gap-y-2 text-sm leading-relaxed">
+                       {/* Hardcoding some common herbs for the demo */}
+                       <span className="text-text-muted">This blend contains extracts of</span>
+                       <IngredientTooltip name="Ashwagandha" />,
+                       <IngredientTooltip name="Brahmi" />, and 
+                       <IngredientTooltip name="Tulsi" /> 
+                       <span className="text-text-muted">in a pure, bio-available format.</span>
+                    </div>
                   )
                 },
                 {
