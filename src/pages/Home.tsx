@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState, type MouseEvent, type ReactNode } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
 import { ArrowRight, ShoppingBag, Sparkles, Leaf } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -6,6 +6,8 @@ import { products } from '../data/products';
 import { useCart } from '../context/CartContext';
 import { ProductQuiz } from '../components/ProductQuiz';
 import { ReviewMarquee } from '../components/ReviewMarquee';
+import { SpotlightSection } from '../components/SpotlightSection';
+import { EditorialCollage } from '../components/EditorialCollage';
 
 // ─── PREMIUM FEATURE: SCROLL-SCRUBBING TEXT REVEAL ────────
 const TextScrubReveal = ({ text, progress, range }: { text: string, progress: any, range: [number, number] }) => {
@@ -71,6 +73,11 @@ export const Home = () => {
   const s1ImgOpacity = useTransform(smoothProgress, [0.15, 0.25], [1, 0]);
   const s1ContentOpacity = useTransform(smoothProgress, [0, 0.1], [1, 0]);
   const s1Blur = useTransform(smoothProgress, [0, 0.25], ["blur(0px)", "blur(30px)"]);
+  
+  // Parallax slices for the hero image
+  const slice1Y = useTransform(smoothProgress, [0, 0.25], ["0%", "-20%"]);
+  const slice2Y = useTransform(smoothProgress, [0, 0.25], ["0%", "25%"]);
+  const slice3Y = useTransform(smoothProgress, [0, 0.25], ["0%", "-15%"]);
 
   // --- SCENE 2: THE 3D CAROUSEL (0.2 to 0.6) ---
   const carouselOpacity = useTransform(smoothProgress, [0.2, 0.3, 0.55, 0.65], [0, 1, 1, 0]);
@@ -185,9 +192,17 @@ export const Home = () => {
            
            <motion.div 
              style={{ scale: s1ImgScale, opacity: s1ImgOpacity, y: s1TextYBot, filter: s1Blur }} 
-             className="relative z-10 w-[70vw] md:w-[45vw] max-w-[500px] aspect-[16/10] md:aspect-[3/2] mt-10 md:mt-16 rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl border border-[#173C2A]/10 origin-center"
+             className="relative z-10 w-[70vw] md:w-[45vw] max-w-[500px] aspect-[16/10] md:aspect-[3/2] mt-10 md:mt-16 rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl border border-[#173C2A]/10 origin-center flex bg-[#173C2A]"
            >
-              <img src={products[0].image} className="w-full h-full object-cover" alt="Hero Product" />
+              <motion.div style={{ y: slice1Y }} className="w-1/3 h-[140%] -mt-[20%] relative overflow-hidden origin-center">
+                <img src={products[0].image} className="absolute w-[300%] h-full max-w-none object-cover left-0" alt="" />
+              </motion.div>
+              <motion.div style={{ y: slice2Y }} className="w-1/3 h-[140%] -mt-[20%] relative overflow-hidden z-10 drop-shadow-2xl origin-center">
+                <img src={products[0].image} className="absolute w-[300%] h-full max-w-none object-cover left-[-100%]" alt="" />
+              </motion.div>
+              <motion.div style={{ y: slice3Y }} className="w-1/3 h-[140%] -mt-[20%] relative overflow-hidden origin-center">
+                <img src={products[0].image} className="absolute w-[300%] h-full max-w-none object-cover left-[-200%]" alt="" />
+              </motion.div>
            </motion.div>
 
            {/* Scroll Indicator */}
@@ -278,8 +293,8 @@ export const Home = () => {
              </h2>
            </motion.div>
            
-           <motion.div style={{ opacity: s4ButtonOpacity, scale: s4ButtonScale }} className="pointer-events-auto absolute z-40 flex items-center justify-center">
-             <Link to="/shop" className="magnetic group relative overflow-hidden rounded-full bg-[#F7F3E9] px-16 py-8 font-bold tracking-[0.3em] uppercase text-sm md:text-base text-[#B9673E] transition-transform hover:scale-105 shadow-[0_0_80px_rgba(247,243,233,0.3)] flex items-center justify-center border border-[#F7F3E9]/50 backdrop-blur-xl">
+           <motion.div style={{ opacity: s4ButtonOpacity, scale: s4ButtonScale }} className="pointer-events-auto absolute z-40 flex items-center justify-center gooey">
+             <Link to="/shop" className="magnetic group relative overflow-hidden rounded-[40px] bg-[#F7F3E9] px-16 py-8 font-bold tracking-[0.3em] uppercase text-sm md:text-base text-[#B9673E] transition-transform hover:scale-105 shadow-[0_0_80px_rgba(247,243,233,0.3)] flex items-center justify-center border border-[#F7F3E9]/50">
                <span className="absolute inset-0 bg-[#173C2A] translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]" />
                <span className="relative z-10 flex items-center gap-4 group-hover:text-[#F7F3E9] transition-colors duration-500">
                  Enter The Apothecary <ArrowRight size={20} />
@@ -292,7 +307,9 @@ export const Home = () => {
       </motion.div>
 
       {/* Normal flow sections added below the sticky scroll */}
-      <div className="relative z-50 bg-[#F7F3E9]">
+      <div className="relative z-50 bg-[#F7F3E9] w-full">
+        <SpotlightSection />
+        <EditorialCollage />
         <ReviewMarquee />
         <ProductQuiz />
       </div>

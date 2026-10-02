@@ -8,11 +8,13 @@ import { Contact } from './pages/Contact.tsx';
 import { Glossary } from './pages/Glossary.tsx';
 import { CartDrawer } from './components/CartDrawer.tsx';
 import { Preloader } from './components/Preloader';
+import { GooeyFilter } from './components/GooeyFilter';
 
 function App() {
   return (
     <Router>
       <div className="min-h-screen flex flex-col bg-background text-text-main font-sans selection:bg-accent selection:text-white">
+        <GooeyFilter />
         <Preloader />
         <Navbar />
         <CartDrawer />
