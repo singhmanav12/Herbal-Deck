@@ -1,12 +1,14 @@
 import { useRef, type MouseEvent } from 'react';
-import { motion, useSpring } from 'framer-motion';
+import { motion, useSpring, useMotionTemplate } from 'framer-motion';
 
 export const SpotlightSection = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   
-  // Use springs for smooth spotlight trailing
-  const mouseX = useSpring(0, { stiffness: 100, damping: 20 });
-  const mouseY = useSpring(0, { stiffness: 100, damping: 20 });
+  // Use stiffer springs for faster, smoother spotlight trailing without lag
+  const mouseX = useSpring(0, { stiffness: 400, damping: 30 });
+  const mouseY = useSpring(0, { stiffness: 400, damping: 30 });
+  
+  const maskImage = useMotionTemplate`radial-gradient(circle 300px at ${mouseX}px ${mouseY}px, black 0%, transparent 100%)`;
 
   const handleMouseMove = (e: MouseEvent) => {
     if (containerRef.current) {
@@ -26,17 +28,8 @@ export const SpotlightSection = () => {
       <motion.div 
         className="absolute inset-0 z-10 pointer-events-none"
         style={{
-          WebkitMaskImage: `radial-gradient(circle 300px at var(--x) var(--y), black 0%, transparent 100%)`,
-          maskImage: `radial-gradient(circle 300px at var(--x) var(--y), black 0%, transparent 100%)`,
-          // @ts-ignore
-          '--x': mouseX.get() + 'px',
-          '--y': mouseY.get() + 'px',
-        }}
-        onUpdate={() => {
-          if (containerRef.current) {
-            containerRef.current.style.setProperty('--x', `${mouseX.get()}px`);
-            containerRef.current.style.setProperty('--y', `${mouseY.get()}px`);
-          }
+          WebkitMaskImage: maskImage,
+          maskImage: maskImage,
         }}
       >
         <div className="w-full h-full bg-[#173C2A] flex flex-col items-center justify-center relative">
