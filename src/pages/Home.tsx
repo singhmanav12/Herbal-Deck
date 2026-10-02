@@ -67,6 +67,7 @@ export const Home = () => {
   const s1ImgScale = useTransform(smoothProgress, [0, 0.25], [1, 3.5]);
   const s1ImgOpacity = useTransform(smoothProgress, [0.15, 0.25], [1, 0]);
   const s1ContentOpacity = useTransform(smoothProgress, [0, 0.1], [1, 0]);
+  const s1Blur = useTransform(smoothProgress, [0, 0.25], ["blur(0px)", "blur(30px)"]);
 
   // --- SCENE 2: THE 3D CAROUSEL (0.2 to 0.6) ---
   const carouselOpacity = useTransform(smoothProgress, [0.2, 0.3, 0.55, 0.65], [0, 1, 1, 0]);
@@ -78,7 +79,10 @@ export const Home = () => {
   
   // --- SCENE 4: FINAL IMPACT (0.8 to 1.0) ---
   const s4Opacity = useTransform(smoothProgress, [0.8, 0.85], [0, 1]);
-  const s4Scale = useTransform(smoothProgress, [0.8, 0.85], [0.8, 1]);
+  const s4Scale = useTransform(smoothProgress, [0.8, 0.98], [0.8, 40]);
+  const s4TextOpacity = useTransform(smoothProgress, [0.85, 0.95], [1, 0]);
+  const s4ButtonOpacity = useTransform(smoothProgress, [0.95, 0.98], [0, 1]);
+  const s4ButtonScale = useTransform(smoothProgress, [0.95, 0.98], [0.5, 1]);
 
   const { addToCart } = useCart();
 
@@ -141,7 +145,7 @@ export const Home = () => {
              />
            </motion.div>
 
-           <motion.div style={{ y: s1TextYTop, opacity: s1ImgOpacity }} className="text-center z-20 px-4">
+           <motion.div style={{ y: s1TextYTop, opacity: s1ImgOpacity, filter: s1Blur }} className="text-center z-20 px-4">
               <motion.span 
                 initial={{ opacity: 0 }} 
                 animate={{ opacity: 1 }} 
@@ -176,7 +180,7 @@ export const Home = () => {
            </motion.div>
            
            <motion.div 
-             style={{ scale: s1ImgScale, opacity: s1ImgOpacity, y: s1TextYBot }} 
+             style={{ scale: s1ImgScale, opacity: s1ImgOpacity, y: s1TextYBot, filter: s1Blur }} 
              className="relative z-10 w-[70vw] md:w-[45vw] max-w-[500px] aspect-[16/10] md:aspect-[3/2] mt-10 md:mt-16 rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl border border-[#173C2A]/10 origin-center"
            >
               <img src={products[0].image} className="w-full h-full object-cover" alt="Hero Product" />
@@ -260,21 +264,24 @@ export const Home = () => {
             SCENE 4: FINAL IMPACT (0.8 to 1.0)
         ========================================== */}
         <motion.div 
-           style={{ opacity: s4Opacity, scale: s4Scale }}
-           className="absolute inset-0 z-30 flex flex-col items-center justify-center text-[#F7F3E9] pointer-events-none"
+           style={{ opacity: s4Opacity }}
+           className="absolute inset-0 z-30 flex flex-col items-center justify-center text-[#F7F3E9] pointer-events-none overflow-hidden"
         >
-           <Sparkles className="w-16 h-16 mb-8 opacity-80" />
-           <h2 className="text-[12vw] font-serif tracking-tighter leading-none mb-12 text-center">
-             PURE <br/><span className="italic font-light">NATURE</span>
-           </h2>
-           <div className="pointer-events-auto relative z-40">
-             <Link to="/shop" className="group relative overflow-hidden rounded-full bg-[#173C2A] px-12 py-6 font-bold tracking-[0.2em] uppercase text-xs md:text-sm text-[#F7F3E9] transition-transform hover:scale-105 shadow-2xl flex border border-white/20">
-               <span className="absolute inset-0 bg-[#F7F3E9] translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]" />
-               <span className="relative z-10 flex items-center gap-3 group-hover:text-[#173C2A] transition-colors duration-500">
-                 Enter The Apothecary <ArrowRight size={16} />
+           <motion.div style={{ scale: s4Scale, opacity: s4TextOpacity }} className="flex flex-col items-center justify-center origin-center">
+             <Sparkles className="w-16 h-16 mb-8 opacity-80" />
+             <h2 className="text-[15vw] font-serif tracking-tighter leading-none mb-12 text-center whitespace-nowrap">
+               PURE <br/><span className="italic font-light">NATURE</span>
+             </h2>
+           </motion.div>
+           
+           <motion.div style={{ opacity: s4ButtonOpacity, scale: s4ButtonScale }} className="pointer-events-auto absolute z-40 flex items-center justify-center">
+             <Link to="/shop" className="magnetic group relative overflow-hidden rounded-full bg-[#F7F3E9] px-16 py-8 font-bold tracking-[0.3em] uppercase text-sm md:text-base text-[#B9673E] transition-transform hover:scale-105 shadow-[0_0_80px_rgba(247,243,233,0.3)] flex items-center justify-center border border-[#F7F3E9]/50 backdrop-blur-xl">
+               <span className="absolute inset-0 bg-[#173C2A] translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]" />
+               <span className="relative z-10 flex items-center gap-4 group-hover:text-[#F7F3E9] transition-colors duration-500">
+                 Enter The Apothecary <ArrowRight size={20} />
                </span>
              </Link>
-           </div>
+           </motion.div>
         </motion.div>
 
       </div>
