@@ -31,6 +31,15 @@ const TextScrubReveal = ({ text, progress, range }: { text: string, progress: an
 // ─── MAIN HOME COMPONENT ────────────────────────────────────
 const rotatingWords = ["Masterpiece", "Medicine", "Remedy", "Secret", "Essence"];
 
+const CRAZY_PARTICLES = Array.from({ length: 30 }).map((_, i) => ({
+  id: i,
+  x: Math.random() * 120 - 60,
+  y: Math.random() * 120 - 60,
+  scale: Math.random() * 0.8 + 0.2,
+  duration: Math.random() * 10 + 10,
+  delay: Math.random() * 5,
+}));
+
 export const Home = () => {
   const [wordIndex, setWordIndex] = useState(0);
 
@@ -87,6 +96,51 @@ export const Home = () => {
         ========================================== */}
         <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-10 pt-10 md:pt-20">
            
+           {/* --- CRAZY ADDITION: Floating Nature Particles & Glowing Orbs --- */}
+           <motion.div style={{ opacity: s1ImgOpacity }} className="absolute inset-0 overflow-hidden flex items-center justify-center pointer-events-none z-0">
+             {CRAZY_PARTICLES.map((p) => (
+               <motion.div
+                 key={p.id}
+                 initial={{ x: `${p.x}vw`, y: `${p.y}vh`, rotate: 0, opacity: 0 }}
+                 animate={{
+                   y: [`${p.y}vh`, `${p.y - 20}vh`, `${p.y}vh`],
+                   rotate: [0, 180, 360],
+                   opacity: [0, 0.4, 0.4, 0]
+                 }}
+                 transition={{
+                   duration: p.duration,
+                   repeat: Infinity,
+                   delay: p.delay,
+                   ease: "linear"
+                 }}
+                 className="absolute text-[#B9673E]"
+                 style={{ scale: p.scale }}
+               >
+                 <Sparkles className="w-6 h-6 md:w-10 md:h-10 opacity-60" />
+               </motion.div>
+             ))}
+             {/* Glowing animated orbs behind everything */}
+             <motion.div
+                animate={{
+                  scale: [1, 1.4, 1],
+                  opacity: [0.05, 0.15, 0.05],
+                  rotate: [0, 90, 0]
+                }}
+                transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute w-[70vw] h-[70vw] max-w-[800px] max-h-[800px] bg-[#B9673E] blur-[100px] rounded-full z-0 mix-blend-multiply"
+             />
+             <motion.div
+                animate={{
+                  scale: [1, 1.5, 1],
+                  opacity: [0.05, 0.15, 0.05],
+                  x: [0, 100, -100, 0],
+                  y: [0, -100, 100, 0]
+                }}
+                transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute w-[60vw] h-[60vw] max-w-[700px] max-h-[700px] bg-[#173C2A] blur-[120px] rounded-full z-0 mix-blend-multiply"
+             />
+           </motion.div>
+
            <motion.div style={{ y: s1TextYTop, opacity: s1ImgOpacity }} className="text-center z-20 px-4">
               <motion.span 
                 initial={{ opacity: 0 }} 
