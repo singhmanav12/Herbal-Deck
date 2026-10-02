@@ -8,13 +8,12 @@ import { Contact } from './pages/Contact.tsx';
 import { Glossary } from './pages/Glossary.tsx';
 import { CartDrawer } from './components/CartDrawer.tsx';
 import { Preloader } from './components/Preloader';
-import { CustomCursor } from './components/CustomCursor';
+
 function App() {
   return (
     <Router>
-      <div className="min-h-screen flex flex-col bg-background text-text-main font-sans selection:bg-accent selection:text-white cursor-none">
+      <div className="min-h-screen flex flex-col bg-background text-text-main font-sans selection:bg-accent selection:text-white">
         <Preloader />
-        <CustomCursor />
         <Navbar />
         <CartDrawer />
         <main className="flex-grow">

@@ -1,6 +1,6 @@
 import { useRef, useEffect, useState, type MouseEvent, type ReactNode } from 'react';
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
-import { ArrowRight, ShoppingBag, Sparkles } from 'lucide-react';
+import { ArrowRight, ShoppingBag, Sparkles, Leaf } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { products } from '../data/products';
 import { useCart } from '../context/CartContext';
@@ -31,13 +31,16 @@ const TextScrubReveal = ({ text, progress, range }: { text: string, progress: an
 // ─── MAIN HOME COMPONENT ────────────────────────────────────
 const rotatingWords = ["Masterpiece", "Medicine", "Remedy", "Secret", "Essence"];
 
-const CRAZY_PARTICLES = Array.from({ length: 30 }).map((_, i) => ({
+const FALLING_LEAVES = Array.from({ length: 30 }).map((_, i) => ({
   id: i,
-  x: Math.random() * 120 - 60,
-  y: Math.random() * 120 - 60,
+  x: Math.random() * 100, // 0 to 100vw
+  startY: Math.random() * -100 - 20, // Start above screen
+  endY: 120, // End below screen
   scale: Math.random() * 0.8 + 0.2,
-  duration: Math.random() * 10 + 10,
-  delay: Math.random() * 5,
+  duration: Math.random() * 15 + 15,
+  delay: Math.random() * -15, // Negative delay so they are already falling on load
+  rotation: Math.random() * 360,
+  swing: Math.random() * 10 + 5, // How much it swings left/right
 }));
 
 export const Home = () => {
@@ -102,25 +105,26 @@ export const Home = () => {
            
            {/* --- CRAZY ADDITION: Floating Nature Particles & Glowing Orbs --- */}
            <motion.div style={{ opacity: s1ImgOpacity }} className="absolute inset-0 overflow-hidden flex items-center justify-center pointer-events-none z-0">
-             {CRAZY_PARTICLES.map((p) => (
+             {FALLING_LEAVES.map((p) => (
                <motion.div
                  key={p.id}
-                 initial={{ x: `${p.x}vw`, y: `${p.y}vh`, rotate: 0, opacity: 0 }}
+                 initial={{ x: `${p.x}vw`, y: `${p.startY}vh`, rotate: p.rotation, opacity: 0 }}
                  animate={{
-                   y: [`${p.y}vh`, `${p.y - 20}vh`, `${p.y}vh`],
-                   rotate: [0, 180, 360],
+                   y: [`${p.startY}vh`, `${p.endY}vh`],
+                   x: [`${p.x}vw`, `${p.x - p.swing}vw`, `${p.x + p.swing}vw`, `${p.x}vw`],
+                   rotate: [p.rotation, p.rotation + 180, p.rotation + 360],
                    opacity: [0, 0.4, 0.4, 0]
                  }}
                  transition={{
-                   duration: p.duration,
-                   repeat: Infinity,
-                   delay: p.delay,
-                   ease: "linear"
+                   y: { duration: p.duration, repeat: Infinity, delay: p.delay, ease: "linear" },
+                   x: { duration: p.duration / 3, repeat: Infinity, delay: p.delay, ease: "easeInOut" },
+                   rotate: { duration: p.duration / 2, repeat: Infinity, delay: p.delay, ease: "linear" },
+                   opacity: { duration: p.duration, repeat: Infinity, delay: p.delay, ease: "linear" },
                  }}
-                 className="absolute text-[#B9673E]"
+                 className="absolute text-[#173C2A]"
                  style={{ scale: p.scale }}
                >
-                 <Sparkles className="w-6 h-6 md:w-10 md:h-10 opacity-60" />
+                 <Leaf className="w-6 h-6 md:w-10 md:h-10 opacity-40 mix-blend-multiply" />
                </motion.div>
              ))}
              {/* Glowing animated orbs behind everything */}
