@@ -143,7 +143,7 @@ export const Home = () => {
                   rotate: [0, 90, 0]
                 }}
                 transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute w-[70vw] h-[70vw] max-w-[800px] max-h-[800px] bg-[#B9673E] blur-[100px] rounded-full z-0 mix-blend-multiply"
+                className="absolute w-[70vw] h-[70vw] max-w-[800px] max-h-[800px] bg-[#B9673E] blur-[100px] rounded-full z-0"
              />
              <motion.div
                 animate={{
@@ -153,7 +153,7 @@ export const Home = () => {
                   y: [0, -100, 100, 0]
                 }}
                 transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute w-[60vw] h-[60vw] max-w-[700px] max-h-[700px] bg-[#173C2A] blur-[120px] rounded-full z-0 mix-blend-multiply"
+                className="absolute w-[60vw] h-[60vw] max-w-[700px] max-h-[700px] bg-[#173C2A] blur-[120px] rounded-full z-0"
              />
            </motion.div>
 
@@ -221,8 +221,6 @@ export const Home = () => {
         ========================================== */}
         <motion.div style={{ opacity: carouselOpacity }} className="absolute inset-0 z-15 pointer-events-none">
            <FluidBackground />
-           <div className="absolute inset-0 bg-[#06120C]/40 mix-blend-overlay pointer-events-none" />
-           <div className="absolute inset-0 bg-[#06120C]/20 pointer-events-none" />
         </motion.div>
 
         <motion.div 

@@ -3,46 +3,47 @@ import { motion } from 'framer-motion';
 export const FluidBackground = () => {
   return (
     <div className="absolute inset-0 bg-[#06120C] overflow-hidden pointer-events-none z-0">
-      {/* 
-        Ultra-Premium Fluid Orbs 
-        Using pure CSS mix-blend-mode and huge blurs to simulate a 3D organic fluid background.
-      */}
+      <style>{`
+        @keyframes float1 {
+          0%, 100% { transform: translate(0vw, 0vh) scale(1); }
+          50% { transform: translate(10vw, 15vh) scale(1.2); }
+        }
+        @keyframes float2 {
+          0%, 100% { transform: translate(0vw, 0vh) scale(1); }
+          50% { transform: translate(-15vw, -10vh) scale(1.4); }
+        }
+        @keyframes float3 {
+          0%, 100% { transform: translate(0vw, 0vh) scale(1); }
+          50% { transform: translate(20vw, 20vh) scale(1.3); }
+        }
+        .fluid-orb {
+          position: absolute;
+          border-radius: 50%;
+          filter: blur(100px);
+          will-change: transform;
+        }
+      `}</style>
       
-      {/* Orb 1: Deep Green */}
-      <motion.div
-        animate={{
-          x: ['0vw', '10vw', '-5vw', '0vw'],
-          y: ['0vh', '15vh', '-10vh', '0vh'],
-          scale: [1, 1.2, 0.9, 1],
-        }}
-        transition={{ duration: 25, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute -top-[20%] -left-[10%] w-[60vw] h-[60vw] max-w-[800px] max-h-[800px] bg-[#173C2A] rounded-full mix-blend-screen filter blur-[100px] opacity-60"
+      {/* Orb 1: Deep Sage / Gold */}
+      <div
+        className="fluid-orb -top-[10%] -left-[10%] w-[50vw] h-[50vw] max-w-[600px] max-h-[600px] bg-[#4A7C59] opacity-80"
+        style={{ animation: 'float1 20s ease-in-out infinite' }}
       />
 
       {/* Orb 2: Rich Rust / Bronze */}
-      <motion.div
-        animate={{
-          x: ['0vw', '-15vw', '10vw', '0vw'],
-          y: ['0vh', '-10vh', '20vh', '0vh'],
-          scale: [1, 1.4, 0.8, 1],
-        }}
-        transition={{ duration: 30, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-        className="absolute top-[30%] right-[5%] w-[50vw] h-[50vw] max-w-[700px] max-h-[700px] bg-[#B9673E] rounded-full mix-blend-screen filter blur-[120px] opacity-40"
+      <div
+        className="fluid-orb top-[20%] right-[5%] w-[40vw] h-[40vw] max-w-[500px] max-h-[500px] bg-[#B9673E] opacity-70"
+        style={{ animation: 'float2 25s ease-in-out infinite 2s' }}
       />
 
-      {/* Orb 3: Mid-Tone Sage */}
-      <motion.div
-        animate={{
-          x: ['0vw', '20vw', '-20vw', '0vw'],
-          y: ['0vh', '20vh', '-20vh', '0vh'],
-          scale: [1, 1.1, 1.3, 1],
-        }}
-        transition={{ duration: 35, repeat: Infinity, ease: 'easeInOut', delay: 5 }}
-        className="absolute -bottom-[20%] left-[20%] w-[70vw] h-[70vw] max-w-[900px] max-h-[900px] bg-[#28563A] rounded-full mix-blend-screen filter blur-[140px] opacity-50"
+      {/* Orb 3: Cream / Tan */}
+      <div
+        className="fluid-orb -bottom-[10%] left-[20%] w-[55vw] h-[55vw] max-w-[700px] max-h-[700px] bg-[#D4A373] opacity-60"
+        style={{ animation: 'float3 30s ease-in-out infinite 5s' }}
       />
 
       {/* Grain Overlay for Cinematic Texture */}
-      <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-30 mix-blend-overlay" />
+      <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay" />
     </div>
   );
 };
