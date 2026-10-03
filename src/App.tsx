@@ -30,7 +30,7 @@ function AnimatedRoutes() {
 function App() {
   return (
     <Router>
-      <div className="min-h-screen flex flex-col bg-background text-text-main font-sans selection:bg-accent selection:text-white overflow-hidden">
+      <div className="min-h-screen flex flex-col bg-background text-text-main font-sans selection:bg-accent selection:text-white overflow-x-hidden">
         <GooeyFilter />
         <Preloader />
         <Navbar />
