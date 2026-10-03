@@ -8,6 +8,7 @@ import { ProductQuiz } from '../components/ProductQuiz';
 import { ReviewMarquee } from '../components/ReviewMarquee';
 import { SpotlightSection } from '../components/SpotlightSection';
 import { EditorialCollage } from '../components/EditorialCollage';
+import { FluidBackground } from '../components/FluidBackground';
 
 // ─── PREMIUM FEATURE: SCROLL-SCRUBBING TEXT REVEAL ────────
 const TextScrubReveal = ({ text, progress, range }: { text: string, progress: any, range: [number, number] }) => {
@@ -219,9 +220,9 @@ export const Home = () => {
             SCENE 2: THE 3D CAROUSEL (0.2 to 0.6)
         ========================================== */}
         <motion.div style={{ opacity: carouselOpacity }} className="absolute inset-0 z-15 pointer-events-none">
-           <img src="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&q=80&w=2500" className="w-full h-full object-cover scale-105" alt="Natural Herbal Background" />
-           <div className="absolute inset-0 bg-[#06120C]/60 mix-blend-overlay" />
-           <div className="absolute inset-0 bg-[#06120C]/30" />
+           <FluidBackground />
+           <div className="absolute inset-0 bg-[#06120C]/40 mix-blend-overlay pointer-events-none" />
+           <div className="absolute inset-0 bg-[#06120C]/20 pointer-events-none" />
         </motion.div>
 
         <motion.div 

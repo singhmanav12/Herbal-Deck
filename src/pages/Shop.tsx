@@ -146,8 +146,12 @@ export const Shop = () => {
                   >
                     <div className="relative aspect-[4/5] overflow-hidden bg-[#EAE6D9] rounded-[2.5rem] m-2">
                       <Link to={`/product/${product.id}`}>
-                        <img src={product.image} alt={product.name}
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] mix-blend-multiply" />
+                        <motion.img 
+                          layoutId={`product-image-${product.id}`}
+                          src={product.image} 
+                          alt={product.name}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] mix-blend-multiply" 
+                        />
                       </Link>
                       {product.mrp > product.price && (
                         <div className="absolute top-4 left-4 bg-accent text-white text-xs font-bold px-2.5 py-1 rounded-full">

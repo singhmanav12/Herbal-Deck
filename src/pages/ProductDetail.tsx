@@ -38,7 +38,12 @@ export const ProductDetail = () => {
           {/* ── Left: Gallery ── */}
           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="space-y-4">
             <div className="relative aspect-[4/5] bg-sage/20 rounded-3xl overflow-hidden">
-              <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+              <motion.img 
+                layoutId={`product-image-${product.id}`}
+                src={product.image} 
+                alt={product.name} 
+                className="w-full h-full object-cover" 
+              />
               {discount > 0 && (
                 <div className="absolute top-5 left-5 bg-accent text-white text-sm font-bold px-3 py-1.5 rounded-full">
                   {discount}% OFF
