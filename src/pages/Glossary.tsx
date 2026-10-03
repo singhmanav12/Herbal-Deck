@@ -1,5 +1,5 @@
-import { motion } from 'framer-motion';
-import { Leaf } from 'lucide-react';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const ingredients = [
   {
@@ -7,92 +7,85 @@ const ingredients = [
     origin: "India (Himalayas)",
     description: "An ancient medicinal herb classified as an adaptogen, meaning it can help your body manage stress. It also provides numerous other benefits for your body and brain.",
     benefits: ["Reduces Stress & Anxiety", "Improves Brain Function", "Increases Muscle Mass"],
-    image: "https://images.unsplash.com/photo-1611078749842-8877bc936357?auto=format&fit=crop&q=80&w=800"
+    image: "https://images.unsplash.com/photo-1611078749842-8877bc936357?auto=format&fit=crop&q=80&w=2000"
   },
   {
     name: "Brahmi",
     origin: "Wetlands of Southern India",
     description: "A staple in traditional Ayurvedic medicine, Brahmi is best known for its memory-enhancing properties and its ability to reduce inflammation.",
     benefits: ["Enhances Memory", "Reduces Inflammation", "Rich in Antioxidants"],
-    image: "https://images.unsplash.com/photo-1540263636901-77884d852026?auto=format&fit=crop&q=80&w=800"
+    image: "https://images.unsplash.com/photo-1540263636901-77884d852026?auto=format&fit=crop&q=80&w=2000"
   },
   {
-    name: "Tulsi (Holy Basil)",
+    name: "Tulsi",
     origin: "Tropical Asia",
     description: "Revered as the 'Queen of Herbs', Tulsi is a sacred plant in Hindu belief. It acts as an adaptogen and is packed with vitamin C and zinc.",
     benefits: ["Boosts Immunity", "Reduces Fever & Pain", "Relieves Stress"],
-    image: "https://images.unsplash.com/photo-1605220803444-24e548817a3a?auto=format&fit=crop&q=80&w=800"
+    image: "https://images.unsplash.com/photo-1605220803444-24e548817a3a?auto=format&fit=crop&q=80&w=2000"
   },
   {
     name: "Turmeric",
     origin: "Southeast Asia",
     description: "The spice that gives curry its yellow color. It contains curcumin, a substance with powerful anti-inflammatory and antioxidant properties.",
     benefits: ["Natural Anti-Inflammatory", "Increases Antioxidant Capacity", "Improves Brain Function"],
-    image: "https://images.unsplash.com/photo-1615485984852-c2e554d17bdc?auto=format&fit=crop&q=80&w=800"
+    image: "https://images.unsplash.com/photo-1615485984852-c2e554d17bdc?auto=format&fit=crop&q=80&w=2000"
   }
 ];
 
 export const Glossary = () => {
+  const [hoveredImage, setHoveredImage] = useState<string | null>(null);
+
   return (
-    <div className="bg-[#F7F3E9] min-h-screen py-24">
-      <div className="max-w-6xl mx-auto px-4">
+    <div className="relative min-h-[120vh] bg-[#06120C] text-[#F7F3E9] py-32 overflow-hidden">
+      
+      {/* Background Image Layer */}
+      <AnimatePresence>
+        {hoveredImage && (
+          <motion.div
+            key={hoveredImage}
+            initial={{ opacity: 0, scale: 1.1 }}
+            animate={{ opacity: 0.5, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className="absolute inset-0 pointer-events-none z-0 fixed"
+          >
+            <img src={hoveredImage} alt="Botanical Background" className="w-full h-full object-cover filter grayscale mix-blend-luminosity" />
+            <div className="absolute inset-0 bg-[#B9673E]/40 mix-blend-multiply" />
+            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-50 mix-blend-overlay" />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-12 flex flex-col pt-10 md:pt-20">
+        <h1 className="text-sm md:text-base font-bold mb-20 tracking-[0.5em] uppercase opacity-60 text-center md:text-left">
+          The Botanical Index
+        </h1>
         
-        <div className="text-center mb-20">
-          <span className="text-accent font-bold tracking-[0.3em] uppercase text-xs mb-4 block">
-            The Source
-          </span>
-          <h1 className="text-5xl md:text-7xl font-serif text-primary mb-6">Ingredient Glossary</h1>
-          <p className="max-w-2xl mx-auto text-text-muted text-lg">
-            We source only the most potent, bio-available botanicals from around the world. Discover the science and ancient wisdom behind our formulas.
-          </p>
-        </div>
-
-        <div className="space-y-24">
-          {ingredients.map((ingredient, idx) => (
-            <div key={ingredient.name} className={`flex flex-col md:flex-row gap-12 items-center ${idx % 2 !== 0 ? 'md:flex-row-reverse' : ''}`}>
-              
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.7 }}
-                className="w-full md:w-1/2 aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl relative"
-              >
-                <img src={ingredient.image} alt={ingredient.name} className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-[#173C2A]/10 mix-blend-overlay" />
-              </motion.div>
-
-              <motion.div 
-                initial={{ opacity: 0, x: idx % 2 === 0 ? 50 : -50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.7, delay: 0.2 }}
-                className="w-full md:w-1/2 flex flex-col justify-center"
-              >
-                <div className="flex items-center gap-2 text-accent font-bold uppercase tracking-widest text-xs mb-3">
-                  <Leaf size={14} /> {ingredient.origin}
+        <ul className="flex flex-col w-full border-t border-[#F7F3E9]/20">
+          {ingredients.map((item, idx) => (
+            <motion.li 
+              key={idx}
+              onMouseEnter={() => setHoveredImage(item.image)}
+              onMouseLeave={() => setHoveredImage(null)}
+              className="group border-b border-[#F7F3E9]/20 py-10 md:py-20 flex flex-col md:flex-row md:items-end justify-between cursor-crosshair transition-colors hover:bg-[#F7F3E9]/5 px-4 md:px-12 -mx-4 md:-mx-12"
+            >
+              <div className="flex flex-col z-10">
+                <span className="text-xs md:text-sm font-bold tracking-[0.3em] uppercase opacity-50 mb-4">{String(idx + 1).padStart(2, '0')} — {item.origin}</span>
+                <h2 className="text-6xl md:text-8xl lg:text-[140px] font-serif leading-[0.8] tracking-tighter group-hover:italic group-hover:translate-x-4 transition-transform duration-500">
+                  {item.name}
+                </h2>
+              </div>
+              <div className="max-w-md mt-8 md:mt-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 md:text-right z-10">
+                <p className="text-sm md:text-base leading-relaxed opacity-90 drop-shadow-md">{item.description}</p>
+                <div className="mt-4 flex flex-wrap gap-2 md:justify-end">
+                  {item.benefits.map(b => (
+                    <span key={b} className="text-[10px] tracking-widest uppercase border border-[#F7F3E9]/30 px-3 py-1 rounded-full">{b}</span>
+                  ))}
                 </div>
-                <h2 className="text-4xl md:text-5xl font-serif text-primary mb-6">{ingredient.name}</h2>
-                <p className="text-text-muted text-lg leading-relaxed mb-8">
-                  {ingredient.description}
-                </p>
-                
-                <div>
-                  <h3 className="font-bold text-primary mb-4 uppercase tracking-wider text-sm">Key Benefits</h3>
-                  <ul className="space-y-3">
-                    {ingredient.benefits.map((benefit, i) => (
-                      <li key={i} className="flex items-center gap-3 text-text-muted">
-                        <div className="w-1.5 h-1.5 rounded-full bg-accent" />
-                        {benefit}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </motion.div>
-
-            </div>
+              </div>
+            </motion.li>
           ))}
-        </div>
+        </ul>
       </div>
     </div>
   );

@@ -31,11 +31,12 @@ export const Shop = () => {
   return (
     <div className="bg-background min-h-screen">
       {/* Header */}
-      <div className="bg-primary py-16 text-white text-center">
-        <p className="text-accent text-xs font-bold tracking-widest uppercase mb-3">Herbal Deck</p>
-        <h1 className="text-5xl md:text-6xl font-serif mb-4">All Products</h1>
-        <p className="text-gray-300 max-w-lg mx-auto text-base">
-          Explore our complete range of Ayurvedic formulations — {products.length} products for every wellness need.
+      <div className="bg-[#06120C] py-32 text-center relative overflow-hidden">
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay pointer-events-none" />
+        <p className="text-[#B9673E] text-xs font-bold tracking-[0.3em] uppercase mb-6">Herbal Deck</p>
+        <h1 className="text-6xl md:text-8xl font-serif mb-6 text-[#F7F3E9] tracking-tighter">The Apothecary</h1>
+        <p className="text-[#F7F3E9]/60 max-w-lg mx-auto text-sm md:text-base leading-relaxed tracking-wide">
+          Explore our complete range of Ayurvedic formulations — {products.length} products distilled from the absolute purest essence of the earth.
         </p>
       </div>
 
@@ -138,15 +139,15 @@ export const Shop = () => {
                 {filtered.map((product, i) => (
                   <motion.div
                     key={product.id}
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 40 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.05 }}
-                    className="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:shadow-primary/8 transition-all duration-400 flex flex-col"
+                    transition={{ delay: (i % 3) * 0.1, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                    className="group bg-transparent rounded-[2.5rem] overflow-hidden flex flex-col transition-all duration-700 hover:bg-white/40 hover:shadow-[0_20px_40px_rgba(23,60,42,0.05)] border border-transparent hover:border-white/50 backdrop-blur-sm"
                   >
-                    <div className="relative aspect-square overflow-hidden bg-sage/20">
+                    <div className="relative aspect-[4/5] overflow-hidden bg-[#EAE6D9] rounded-[2.5rem] m-2">
                       <Link to={`/product/${product.id}`}>
                         <img src={product.image} alt={product.name}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] mix-blend-multiply" />
                       </Link>
                       {product.mrp > product.price && (
                         <div className="absolute top-4 left-4 bg-accent text-white text-xs font-bold px-2.5 py-1 rounded-full">
@@ -185,7 +186,7 @@ export const Shop = () => {
                         </div>
                         <button
                           onClick={() => addToCart(product, 1)}
-                          className="bg-primary hover:bg-secondary text-white px-4 py-2 rounded-xl text-xs font-semibold transition-colors"
+                          className="gooey bg-[#173C2A] hover:bg-[#B9673E] text-[#F7F3E9] px-6 py-3 rounded-full text-[10px] font-bold tracking-[0.2em] uppercase transition-colors shadow-lg"
                         >
                           Add to Cart
                         </button>

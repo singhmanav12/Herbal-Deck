@@ -28,106 +28,109 @@ export const CartDrawer = () => {
             onClick={toggleCart}
           />
           <motion.div
-            initial={{ x: '100%' }}
-            animate={{ x: 0 }}
-            exit={{ x: '100%' }}
-            transition={{ type: 'tween', duration: 0.3 }}
-            className="fixed inset-y-0 right-0 w-full max-w-md bg-white shadow-2xl z-50 flex flex-col"
+            initial={{ opacity: 0, y: -20, scale: 0.95, filter: 'blur(10px)' }}
+            animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, y: -20, scale: 0.95, filter: 'blur(10px)' }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed top-24 right-4 md:right-8 w-full max-w-md max-h-[80vh] bg-[#F7F3E9]/70 backdrop-blur-[40px] shadow-[0_40px_100px_rgba(23,60,42,0.15)] z-50 flex flex-col rounded-[32px] border border-white/50 overflow-hidden"
           >
             {/* Header */}
-            <div className="px-6 py-6 border-b border-gray-100 flex items-center justify-between">
-              <h2 className="font-serif text-2xl text-primary">Your Cart</h2>
+            <div className="px-6 py-6 border-b border-[#173C2A]/10 flex items-center justify-between shrink-0">
+              <h2 className="font-serif text-2xl text-[#173C2A]">The Apothecary Bag</h2>
               <button 
                 onClick={toggleCart}
-                className="text-text-muted hover:text-primary transition-colors p-2"
+                className="text-[#173C2A]/50 hover:text-[#173C2A] transition-colors p-2 bg-white/30 rounded-full backdrop-blur-md"
               >
-                <X size={24} />
+                <X size={20} />
               </button>
             </div>
 
             {/* Free Shipping Progress */}
             {cart.length > 0 && (
-              <div className="px-6 py-4 bg-sage/10 border-b border-gray-100">
-                <div className="flex justify-between text-sm font-medium mb-2">
-                  <span className="text-primary">
+              <div className="px-6 py-4 bg-[#173C2A]/5 border-b border-[#173C2A]/10 shrink-0">
+                <div className="flex justify-between text-xs font-bold uppercase tracking-wider mb-2">
+                  <span className="text-[#173C2A]">
                     {amountToFreeShipping > 0 
-                      ? `You're ₹${amountToFreeShipping} away from Free Shipping!` 
-                      : '✨ You unlocked Free Shipping!'}
+                      ? `₹${amountToFreeShipping} away from Free Shipping` 
+                      : '✨ Free Shipping Unlocked'}
                   </span>
                 </div>
-                <div className="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
+                <div className="h-1 w-full bg-[#173C2A]/10 rounded-full overflow-hidden">
                   <motion.div 
                     initial={{ width: 0 }}
                     animate={{ width: `${progressPercentage}%` }}
-                    transition={{ duration: 0.5, ease: "easeOut" }}
-                    className="h-full bg-accent"
+                    transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                    className="h-full bg-[#B9673E]"
                   />
                 </div>
               </div>
             )}
 
             {/* Cart Items */}
-            <div className="flex-grow overflow-y-auto p-6">
+            <div className="flex-grow overflow-y-auto p-6 scrollbar-hide">
               {cart.length === 0 ? (
-                <div className="h-full flex flex-col items-center justify-center text-center space-y-4">
-                  <div className="w-20 h-20 bg-sage rounded-full flex items-center justify-center text-primary mb-2">
+                <div className="h-full flex flex-col items-center justify-center text-center space-y-4 py-12">
+                  <div className="w-20 h-20 bg-white/40 rounded-full flex items-center justify-center text-[#173C2A] mb-2 shadow-inner">
                     <ShoppingBag size={32} />
                   </div>
-                  <h3 className="font-serif text-xl text-primary">Your cart is empty</h3>
-                  <p className="text-text-muted text-sm max-w-[250px]">
-                    Looks like you haven't added any products to your cart yet.
-                  </p>
+                  <h3 className="font-serif text-2xl text-[#173C2A]">Your bag is empty</h3>
                   <button 
                     onClick={toggleCart}
-                    className="mt-4 bg-primary text-white px-8 py-3 rounded-full font-medium hover:bg-secondary transition-colors"
+                    className="mt-4 gooey relative overflow-hidden bg-[#173C2A] text-[#F7F3E9] px-8 py-4 rounded-full font-bold uppercase tracking-widest text-xs hover:bg-[#B9673E] transition-colors shadow-lg"
                   >
-                    Continue Shopping
+                    Enter The Apothecary
                   </button>
                 </div>
               ) : (
                 <div className="space-y-6">
-                  {cart.map((item) => (
-                    <div key={item.id} className="flex gap-4">
-                      <div className="w-24 h-24 bg-sage/30 rounded-xl overflow-hidden flex-shrink-0">
-                        <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                  {cart.map((item, i) => (
+                    <motion.div 
+                      key={item.id} 
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.1, duration: 0.5 }}
+                      className="flex gap-4 p-3 bg-white/40 rounded-2xl border border-white/50 shadow-sm backdrop-blur-md"
+                    >
+                      <div className="w-24 h-24 rounded-xl overflow-hidden flex-shrink-0 bg-[#F7F3E9]">
+                        <img src={item.image} alt={item.name} className="w-full h-full object-cover mix-blend-multiply" />
                       </div>
-                      <div className="flex-grow flex flex-col">
+                      <div className="flex-grow flex flex-col py-1">
                         <div className="flex justify-between items-start mb-1">
                           <Link 
                             to={`/product/${item.id}`} 
                             onClick={toggleCart}
-                            className="font-serif text-lg font-medium text-primary hover:text-accent transition-colors line-clamp-1"
+                            className="font-serif text-lg font-medium text-[#173C2A] hover:text-[#B9673E] transition-colors line-clamp-1"
                           >
                             {item.name}
                           </Link>
                           <button 
                             onClick={() => removeFromCart(item.id)}
-                            className="text-text-muted hover:text-accent p-1"
+                            className="text-[#173C2A]/40 hover:text-[#B9673E] p-1 bg-white/50 rounded-full transition-colors"
                           >
-                            <X size={16} />
+                            <X size={14} />
                           </button>
                         </div>
-                        <div className="text-sm font-bold text-primary mb-auto">
+                        <div className="text-sm font-bold text-[#173C2A] mb-auto">
                           ₹{item.price}
                         </div>
                         
-                        <div className="flex items-center border border-gray-200 rounded-full w-24 h-8">
+                        <div className="flex items-center border border-[#173C2A]/10 bg-white/30 rounded-full w-24 h-8 mt-2">
                           <button 
                             onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                            className="flex-1 flex items-center justify-center text-text-muted hover:text-primary transition-colors"
+                            className="flex-1 flex items-center justify-center text-[#173C2A]/60 hover:text-[#173C2A] transition-colors"
                           >
-                            <Minus size={14} />
+                            <Minus size={12} />
                           </button>
-                          <span className="flex-1 text-center text-sm font-medium">{item.quantity}</span>
+                          <span className="flex-1 text-center text-xs font-bold text-[#173C2A]">{item.quantity}</span>
                           <button 
                             onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                            className="flex-1 flex items-center justify-center text-text-muted hover:text-primary transition-colors"
+                            className="flex-1 flex items-center justify-center text-[#173C2A]/60 hover:text-[#173C2A] transition-colors"
                           >
-                            <Plus size={14} />
+                            <Plus size={12} />
                           </button>
                         </div>
                       </div>
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
               )}
@@ -135,25 +138,31 @@ export const CartDrawer = () => {
 
             {/* Upsells Section */}
             {cart.length > 0 && upsellProducts.length > 0 && (
-              <div className="px-6 py-4 border-t border-gray-100 bg-white">
-                <h3 className="text-sm font-bold text-primary uppercase tracking-wider mb-3">Perfect Pairings</h3>
+              <div className="px-6 py-4 border-t border-[#173C2A]/10 bg-white/20 shrink-0">
+                <h3 className="text-[10px] font-bold text-[#173C2A] uppercase tracking-widest mb-3">Perfect Pairings</h3>
                 <div className="space-y-3">
-                  {upsellProducts.map(upsell => (
-                    <div key={upsell.id} className="flex gap-3 items-center p-2 rounded-lg hover:bg-gray-50 transition-colors">
-                      <div className="w-12 h-12 bg-sage/30 rounded-md overflow-hidden flex-shrink-0">
-                        <img src={upsell.image} alt={upsell.name} className="w-full h-full object-cover" />
+                  {upsellProducts.map((upsell, i) => (
+                    <motion.div 
+                      key={upsell.id}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.3 + (i * 0.1) }}
+                      className="flex gap-3 items-center p-2 rounded-xl hover:bg-white/40 transition-colors border border-transparent hover:border-white/50"
+                    >
+                      <div className="w-12 h-12 bg-[#F7F3E9] rounded-lg overflow-hidden flex-shrink-0">
+                        <img src={upsell.image} alt={upsell.name} className="w-full h-full object-cover mix-blend-multiply" />
                       </div>
                       <div className="flex-grow">
-                        <h4 className="text-sm font-medium text-primary line-clamp-1">{upsell.name}</h4>
-                        <span className="text-xs font-bold text-text-muted">₹{upsell.price}</span>
+                        <h4 className="text-sm font-serif font-medium text-[#173C2A] line-clamp-1">{upsell.name}</h4>
+                        <span className="text-xs font-bold text-[#173C2A]/60">₹{upsell.price}</span>
                       </div>
                       <button 
                         onClick={() => addToCart(upsell, 1)}
-                        className="bg-primary/10 text-primary hover:bg-primary hover:text-white px-3 py-1 rounded-full text-xs font-bold transition-colors"
+                        className="bg-white text-[#173C2A] shadow-sm hover:bg-[#173C2A] hover:text-[#F7F3E9] px-4 py-2 rounded-full text-[10px] font-bold tracking-widest uppercase transition-colors gooey"
                       >
-                        ADD
+                        Add
                       </button>
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
               </div>
@@ -161,16 +170,13 @@ export const CartDrawer = () => {
 
             {/* Footer */}
             {cart.length > 0 && (
-              <div className="border-t border-gray-100 p-6 bg-gray-50">
+              <div className="border-t border-[#173C2A]/10 p-6 bg-white/40 shrink-0">
                 <div className="flex justify-between items-center mb-6">
-                  <span className="text-text-muted font-medium">Subtotal</span>
-                  <span className="font-serif text-2xl font-bold text-primary">₹{cartTotal}</span>
+                  <span className="text-[#173C2A]/70 font-medium text-sm uppercase tracking-widest">Subtotal</span>
+                  <span className="font-serif text-3xl font-bold text-[#173C2A]">₹{cartTotal}</span>
                 </div>
-                <p className="text-xs text-text-muted mb-4 text-center">
-                  Shipping and taxes calculated at checkout.
-                </p>
-                <button className="w-full bg-accent hover:bg-[#a05632] text-white py-4 rounded-xl font-medium text-lg transition-colors shadow-lg shadow-accent/20">
-                  Checkout
+                <button className="gooey w-full bg-[#B9673E] hover:bg-[#173C2A] text-[#F7F3E9] py-4 rounded-full font-bold tracking-[0.2em] uppercase text-xs transition-colors shadow-xl">
+                  Secure Checkout
                 </button>
               </div>
             )}
