@@ -1,7 +1,7 @@
-import { motion } from 'framer-motion';
-import { ReactNode } from 'react';
+import { motion, type Variants } from 'framer-motion';
+import type { ReactNode } from 'react';
 
-const slideVariants = {
+const slideVariants: Variants = {
   initial: {
     clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0% 100%)',
     filter: 'blur(20px)',
@@ -15,17 +15,23 @@ const slideVariants = {
     opacity: 1,
     transition: {
       duration: 0.8,
-      ease: [0.22, 1, 0.36, 1], // Custom cinematic easing
+      ease: [0.22, 1, 0.36, 1] as [number, number, number, number],
     },
+    transitionEnd: {
+      // CRITICAL: Remove transform and filter after animation so position: sticky works!
+      transform: 'none',
+      filter: 'none',
+      clipPath: 'none',
+    }
   },
   exit: {
-    clipPath: 'polygon(50% 0, 50% 0, 50% 100%, 50% 100%)', // Collapses to a thin vertical line
+    clipPath: 'polygon(50% 0, 50% 0, 50% 100%, 50% 100%)',
     filter: 'blur(10px)',
     scale: 1.05,
     opacity: 0,
     transition: {
       duration: 0.6,
-      ease: [0.22, 1, 0.36, 1],
+      ease: [0.22, 1, 0.36, 1] as [number, number, number, number],
     },
   },
 };
@@ -37,7 +43,7 @@ export const PageTransition = ({ children }: { children: ReactNode }) => {
       initial="initial"
       animate="animate"
       exit="exit"
-      className="w-full h-full min-h-screen"
+      className="w-full min-h-screen"
     >
       {children}
     </motion.div>
