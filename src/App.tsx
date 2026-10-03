@@ -15,15 +15,13 @@ import { PageTransition } from './components/PageTransition';
 function AnimatedRoutes() {
   const location = useLocation();
   return (
-    <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<PageTransition><Home /></PageTransition>} />
-        <Route path="/shop" element={<PageTransition><Shop /></PageTransition>} />
-        <Route path="/product/:id" element={<PageTransition><ProductDetail /></PageTransition>} />
-        <Route path="/contact" element={<PageTransition><Contact /></PageTransition>} />
-        <Route path="/glossary" element={<PageTransition><Glossary /></PageTransition>} />
-      </Routes>
-    </AnimatePresence>
+    <Routes location={location} key={location.pathname}>
+      <Route path="/" element={<Home />} />
+      <Route path="/shop" element={<Shop />} />
+      <Route path="/product/:id" element={<ProductDetail />} />
+      <Route path="/contact" element={<Contact />} />
+      <Route path="/glossary" element={<Glossary />} />
+    </Routes>
   );
 }
 
@@ -32,7 +30,6 @@ function App() {
     <Router>
       <div className="min-h-screen flex flex-col bg-background text-text-main font-sans selection:bg-accent selection:text-white overflow-x-hidden">
         <GooeyFilter />
-        <Preloader />
         <Navbar />
         <CartDrawer />
         <main className="flex-grow">
