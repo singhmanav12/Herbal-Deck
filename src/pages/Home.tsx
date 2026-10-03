@@ -63,7 +63,7 @@ export const Home = () => {
 
   // --- GLOBAL BACKGROUND TIMELINE (0 to 1) ---
   const bg = useTransform(smoothProgress, 
-    [0, 0.15, 0.2, 0.7, 0.8], 
+    [0, 0.15, 0.2, 0.75, 0.85], 
     ["#F7F3E9", "#F7F3E9", "#06120C", "#06120C", "#B9673E"]
   );
 
@@ -85,15 +85,20 @@ export const Home = () => {
   const carouselScale = useTransform(smoothProgress, [0.2, 0.3, 0.55, 0.65], [0.5, 1, 1, 1.5]);
   const carouselRotateY = useTransform(smoothProgress, [0.2, 0.65], [60, -320]);
   
-  // --- SCENE 3: PHILOSOPHY TEXT SCRUB (0.6 to 0.8) ---
-  const s3Opacity = useTransform(smoothProgress, [0.55, 0.6, 0.75, 0.85], [0, 1, 1, 0]);
+  // --- SCENE 3: PHILOSOPHY TEXT SCRUB (0.6 to 0.75) ---
+  const s3Opacity = useTransform(smoothProgress, [0.55, 0.6, 0.72, 0.76], [0, 1, 1, 0]);
+  const s3Y = useTransform(smoothProgress, [0.72, 0.78], ["0%", "-50%"]); // Push up slightly as it fades
   
   // --- SCENE 4: FINAL IMPACT (0.8 to 1.0) ---
-  const s4Opacity = useTransform(smoothProgress, [0.8, 0.85], [0, 1]);
-  const s4Scale = useTransform(smoothProgress, [0.8, 0.98], [0.8, 40]);
-  const s4TextOpacity = useTransform(smoothProgress, [0.85, 0.95], [1, 0]);
-  const s4ButtonOpacity = useTransform(smoothProgress, [0.95, 0.98], [0, 1]);
-  const s4ButtonScale = useTransform(smoothProgress, [0.95, 0.98], [0.5, 1]);
+  const s4Opacity = useTransform(smoothProgress, [0.76, 0.8], [0, 1]);
+  // Exponential scaling creates a perfectly smooth physical camera push
+  const s4Scale = useTransform(smoothProgress, 
+    [0.8, 0.85, 0.9, 0.95, 1.0], 
+    [0.5, 1, 3, 12, 80]
+  );
+  const s4TextOpacity = useTransform(smoothProgress, [0.95, 1.0], [1, 0]); 
+  const s4ButtonOpacity = useTransform(smoothProgress, [0.93, 1.0], [0, 1]);
+  const s4ButtonScale = useTransform(smoothProgress, [0.93, 1.0], [0.9, 1]);
 
   const { addToCart } = useCart();
 
@@ -264,16 +269,16 @@ export const Home = () => {
 
 
         {/* ==========================================
-            SCENE 3: PHILOSOPHY TEXT SCRUB (0.6 to 0.8)
+            SCENE 3: PHILOSOPHY TEXT SCRUB (0.6 to 0.75)
         ========================================== */}
         <motion.div 
-           style={{ opacity: s3Opacity }}
+           style={{ opacity: s3Opacity, y: s3Y }}
            className="absolute inset-0 z-25 flex flex-col items-center justify-center px-6 md:px-12 pointer-events-none"
         >
            <TextScrubReveal 
              text="We do not formulate supplements. We distill the absolute purest essence of the earth to fundamentally shift your human biology." 
              progress={smoothProgress} 
-             range={[0.6, 0.75]} 
+             range={[0.6, 0.72]} 
            />
         </motion.div>
 
